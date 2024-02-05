@@ -1,7 +1,7 @@
 {
-  "name": "nodejs",
+  "name": "node",
   "version": "1.0.0",
-  "description": "",
+  "description": "Your application description",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -9,12 +9,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
-    "axios": "^1.6.7",
-    "node-fetch": "^3.2.6",
+    "axios": "^0.24.0",
+    "express": "^4.17.1",
     "telegraf": "^4.15.3"
   }
 }
