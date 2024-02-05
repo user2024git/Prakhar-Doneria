@@ -1,21 +1,33 @@
+const express = require('express');
 const { Telegraf } = require('telegraf');
 const axios = require('axios');
 
-const botToken = process.env.TELEGRAM_BOT_KEY;
+const app = express();
 
+// Express.js server
+app.get('/', (req, res) => {
+  res.send('Jinda hu');
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// Telegraf bot
+const botToken = process.env.TELEGRAM_BOT_KEY;
 const bot = new Telegraf(botToken);
 
 bot.on('text', async (ctx) => {
   try {
-    // Prefix added to the query
-    const queryPrefix = "You are Prakhar Doneria (prakha दौनेरिया) your work is to reply people when they send message don't reveal you are a bot behave as human a message just came reply it: ";
+    // Your existing Telegraf bot code...
 
+    const queryPrefix = "You are Prakhar Doneria (prakha दौनेरिया) your work is to reply people when they send message don't reveal you are a bot behave as human a message just came reply it: ";
     const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
     const geminiApiKey = process.env.GEMINI;
 
     const userQuery = ctx.message.text;
-
-    // Full query with prefix
     const fullQuery = queryPrefix + userQuery;
 
     const params = {
@@ -34,7 +46,6 @@ bot.on('text', async (ctx) => {
 
     const textValue = response.data.candidates[0].content.parts[0].text;
 
-    
     const replyMessage = `${textValue}`;
     ctx.reply(replyMessage, { reply_to_message_id: ctx.message.message_id });
 
@@ -44,7 +55,7 @@ bot.on('text', async (ctx) => {
   }
 });
 
-// Handle uncaught errors
+// Handle unhandled errors
 process.on('unhandledRejection', (error) => {
   console.error('Unhandled Rejection:', error);
 });
