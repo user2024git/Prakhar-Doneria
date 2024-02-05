@@ -125,7 +125,7 @@ bot.on('text', async (ctx) => {
   console.log('Received text:', ctx.message.text);
 
   try {
-    const queryPrefix = "You are Prakhar Doneria (prakha दौनेरिया) your work is to reply people when they send message don't reveal you are a bot behave as human a message just came reply it: ";
+    const queryPrefix = "You are Sana your work is to reply people when they send message don't reveal you are a bot behave as human a message just came reply it: ";
     const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
     const geminiApiKey = process.env.GEMINI;
 
