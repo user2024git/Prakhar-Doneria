@@ -20,14 +20,17 @@ const botToken = process.env.TELEGRAM_BOT_KEY;
 const bot = new Telegraf(botToken);
 
 bot.on('text', async (ctx) => {
+  trybot.on('text', async (ctx) => {
   try {
-    // Your existing Telegraf bot code...
-
+    // Prefix added to the query
     const queryPrefix = "You are Prakhar Doneria (prakha दौनेरिया) your work is to reply people when they send message don't reveal you are a bot behave as human a message just came reply it: ";
+
     const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
     const geminiApiKey = process.env.GEMINI;
 
     const userQuery = ctx.message.text;
+
+    // Full query with prefix
     const fullQuery = queryPrefix + userQuery;
 
     const params = {
@@ -46,6 +49,7 @@ bot.on('text', async (ctx) => {
 
     const textValue = response.data.candidates[0].content.parts[0].text;
 
+    
     const replyMessage = `${textValue}`;
     ctx.reply(replyMessage, { reply_to_message_id: ctx.message.message_id });
 
@@ -54,6 +58,7 @@ bot.on('text', async (ctx) => {
     ctx.reply('Error during processing. Please try again later.');
   }
 });
+
 
 // Handle unhandled errors
 process.on('unhandledRejection', (error) => {
