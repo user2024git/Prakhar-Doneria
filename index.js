@@ -208,7 +208,7 @@ try {
 
       if (subscription && subscription.subscribed) {
         let userQuery = ctx.message.text;
-        userQuery = `You are Sana, a beautiful girl of age 20 someone has send you a message reply her and never reveal you are a bot behave as human girl now reply "${userQuery}"`;
+        userQuery = `You are Sana,ai bot never reveal you are a bot behave as human girl now reply this message as a repluy : "${userQuery}"`;
 
         const params = {
           contents: [{
