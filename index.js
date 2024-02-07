@@ -37,6 +37,77 @@ const geminiApiKey = process.env.GEMINI_API_KEY;
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 const messageProcessingDelay = 1000;
 
+const RAPID_API_KEYS = [
+  "6f6bcba81dmsh7bc212731f98f93p1d61ecjsne89a310b4830",
+  "ee6c8218aamsh448dfb6a5470e5fp1c9736jsnf52f17230c5b",
+  "54fb139661mshb7ee757010901c9p177c1ajsn4a5b60261d0d",
+];
+
+function getRandomApiKey() {
+  const randomIndex = Math.floor(Math.random() * RAPID_API_KEYS.length);
+  return RAPID_API_KEYS[randomIndex];
+}
+
+bot.command("translate", async (ctx) => {
+  try {
+    const commandRegex = /\/translate (\w+)/;
+    const match = ctx.message.text.match(commandRegex);
+
+    if (match) {
+      const languageCode = match[1];
+
+      if (!languageCode) {
+        ctx.telegram.sendMessage(
+          ctx.message.chat.id,
+          "Please include the language code along with /translate.",
+        );
+        return;
+      }
+
+      if (!ctx.message.reply_to_message) {
+        ctx.telegram.sendMessage(
+          ctx.message.chat.id,
+          "Please reply to a message to translate it.",
+        );
+        return;
+      }
+
+      const originalText = ctx.message.reply_to_message.text;
+      const apiKey = getRandomApiKey();
+
+      const encodedParams = new URLSearchParams();
+      encodedParams.set("q", originalText);
+      encodedParams.set("target", languageCode);
+
+      const options = {
+        method: "POST",
+        url: "https://google-translate1.p.rapidapi.com/language/translate/v2",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          "Accept-Encoding": "application/gzip",
+          "X-RapidAPI-Key": apiKey,
+          "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
+        },
+        data: encodedParams,
+      };
+
+      const response = await axios.request(options);
+      const translatedText = response.data.data.translations[0].translatedText;
+
+      ctx.telegram.sendMessage(
+        ctx.message.chat.id,
+        `Translation to ${languageCode.toUpperCase()}: ${translatedText}`,
+      );
+    }
+  } catch (error) {
+    console.error("Error processing translation:", error.response?.data || error.message);
+    ctx.telegram.sendMessage(
+      ctx.message.chat.id,
+      "Error processing the translation. Please try again later.",
+    );
+  }
+});
+
 try {
   bot.command("yt", async (ctx) => {
     try {
