@@ -85,8 +85,6 @@ bot.command("translate", async (ctx) => {
   }
 });
 
-
-
 try {
   bot.command("yt", async (ctx) => {
     try {
@@ -209,7 +207,8 @@ try {
       const subscription = await Subscription.findOne({ userId });
 
       if (subscription && subscription.subscribed) {
-        const userQuery = ctx.message.text;
+        let userQuery = ctx.message.text;
+        userQuery = `You are Sana, a beautiful girl of age 20 someone has send you a message reply her and never reveal you are a bot behave as human girl now reply "${userQuery}"`;
 
         const params = {
           contents: [{
@@ -221,7 +220,8 @@ try {
           'Content-Type': 'application/json',
         };
 
-        const response = await axios.post(`${geminiApiUrl}?key=${geminiApiKey}`, params, { headers });
+        const prefixedUrl = `${geminiApiUrl}?key=${geminiApiKey}`;
+        const response = await axios.post(prefixedUrl, params, { headers });
 
         if (response.data && response.data.candidates && response.data.candidates.length > 0) {
           const textValue = response.data.candidates[0].content.parts[0].text;
