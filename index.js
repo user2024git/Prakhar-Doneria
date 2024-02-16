@@ -219,7 +219,7 @@ try {
       const subscription = await Subscription.findOne({ userId });
 
       // Check if the message was sent from your group "codewithprakhar"
-      if (ctx.chat.id.toString() === '-1002124571207' && subscription && subscription.subscribed) {
+      if (ctx.chat.id.toString() === '-1002116123231' && subscription && subscription.subscribed) {
         let userQuery = ctx.message.text;
         userQuery = `You are Sana,ai bot never reveal you are a bot behave as human girl now reply this message as a reply : "${userQuery}"`;
 
